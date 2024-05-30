@@ -92,11 +92,18 @@ function PlasmicDocList__RenderFunc(props) {
             city: "Chicago"
           },
           {
-            name: "Dr. ABC",
-            hospital: "ABC",
-            department: "ABC",
-            position: "ABC",
-            city: "ABC"
+            name: "Dr. Emily Clark",
+            hospital: "City Hospital",
+            department: "Dermatology",
+            position: "Dermatologist",
+            city: "New York"
+          },
+          {
+            name: "Dr. Michael Brown",
+            hospital: "Metro Hospital",
+            department: "Orthopedics",
+            position: "Orthopedic Surgeon",
+            city: "Los Angeles"
           }
         ]
       },
@@ -330,14 +337,12 @@ function PlasmicDocList__RenderFunc(props) {
                 const __composite = [
                   { value: null },
                   { value: null },
-                  { value: null },
                   { value: null }
                 ];
 
                 __composite["0"]["value"] = "City Hospital";
                 __composite["1"]["value"] = "Metro Hospital";
                 __composite["2"]["value"] = "General Hospital";
-                __composite["3"]["value"] = "ABC";
                 return __composite;
               })()}
               value={generateStateValueProp($state, ["select", "value"])}
@@ -348,10 +353,13 @@ function PlasmicDocList__RenderFunc(props) {
               try {
                 return (() => {
                   return $state.data.filter(item => {
-                    if ($state.selectedHospital) {
-                      return item.hospital === $state.selectedHospital;
-                    }
-                    return true;
+                    const matchesHospital = $state.selectedHospital
+                      ? item.hospital === $state.selectedHospital
+                      : true;
+                    const matchesSearchTerm = $state.searchTerm
+                      ? item.name.includes($state.searchTerm)
+                      : true;
+                    return matchesHospital && matchesSearchTerm;
                   });
                 })();
               } catch (e) {
